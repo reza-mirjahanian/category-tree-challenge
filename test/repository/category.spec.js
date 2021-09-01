@@ -81,22 +81,22 @@ suite('Testing Category Repository', () => {
 
   });
 
-  // suite('Category->treeFormatter()', () => {
-  //   test('should return tree-like object', () => {
-  //     const tree = categoryRepo.treeFormatter(mockedDate1);
-  //     expect(tree).to.have.lengthOf(2);
-  //     const programmingChild = tree.find(o => o.name === 'Programming').children;
-  //     const cookingChild = tree.find(o => o.name === 'Cooking').children;
-  //
-  //     expect(_.map(tree, 'name')).to.be.deep.equal(['Programming', 'Cooking']);
-  //     expect(_.map(programmingChild, 'name')).to.be.deep.equal(['JavaScript', 'Database'])
-  //     expect(_.map(cookingChild, 'name')).to.be.deep.equal(['Desert', 'Salad'])
-  //   });
-  //
-  //   test('should handle empty input',  () => {
-  //     const tree = categoryRepo.treeFormatter([]);
-  //     expect(tree).to.be.an('array').that.is.empty;
-  //   });
-  // });
+  suite('Category->treeFormatter()', () => {
+    test('should return tree-like object', () => {
+      const tree = categoryRepo.treeFormatter(mockedDate1);
+      expect(tree).to.have.lengthOf(2);
+      const programmingChild = tree.find(o => o.name === 'Programming').children;
+      const cookingChild = tree.find(o => o.name === 'Cooking').children;
+
+      expect(_.map(tree, 'name')).to.be.deep.equal(['Programming', 'Cooking']);
+      expect(_.map(programmingChild, 'name')).to.be.deep.equal(['JavaScript', 'Database'])
+      expect(_.map(cookingChild, 'name')).to.be.deep.equal(['Desert', 'Salad'])
+    });
+
+    test('should handle empty input',  () => {
+      const tree = categoryRepo.treeFormatter([]);
+      expect(tree).to.be.an('array').that.is.empty;
+    });
+  });
 
 });

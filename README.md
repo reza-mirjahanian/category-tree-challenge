@@ -4,7 +4,7 @@ By Reza Mirjahanian
 ### install
 - MongoDB 4.4
 - Node 14
-
+- install cross-env globally
 ### Running
 `npm i`
 

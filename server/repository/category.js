@@ -2,10 +2,12 @@
 
 const logger = require('../utils/logger'),
   constants = require('../constants'),
+  _ = require('lodash'),
   Model = require('../utils/mongoDB').getModel('Category');
 
 
 class Category {
+
   /**
    * Clean table
    * @return {Promise<boolean>}
@@ -18,6 +20,19 @@ class Category {
     } catch (e) {
       logger.error("Category:removeAll()", e);
       return false;
+    }
+  }
+
+  /**
+   * Return all Data
+   * @return {Promise< {Object[]}|null>}
+   */
+  static async getAll() {
+    try {
+      return await Model.find({}).limit(constants.QUERIES_MAX_LIMIT).select('name path id parent_id -_id').lean();
+    } catch (e) {
+      logger.error("Category:getAll()", e);
+      return null;
     }
   }
 
@@ -71,10 +86,47 @@ class Category {
         ...pattern
       };
 
-      return await Model.find(searchObject).limit(constants.QUERIES_MAX_LIMIT).lean();
+      return await Model.find(searchObject).limit(constants.QUERIES_MAX_LIMIT).select('name path id parent_id -_id').lean();
 
     } catch (e) {
       logger.error("Category:getCategories()", e);
+      return null;
+    }
+  }
+
+  // We assume input data is not corrupted!
+  static treeFormatter(categories = []) {
+    const tree = [];
+    try {
+      const catTable = {};
+      categories.forEach(category => {
+        const categoryId = category['id'];
+        const categoryParentId = category['parent_id'];
+
+        catTable[categoryId] = {
+          ['children']: [],
+          ...category,
+          ...catTable[categoryId] // replace
+        };
+
+        catTable[categoryParentId] = catTable[categoryParentId] || {
+          ['children']: []
+        }; // init
+
+        catTable[categoryParentId]['children'].push(catTable[categoryId]);
+      });
+
+      //Creating tree
+      for (let key in catTable) {
+        let category = catTable[key];
+        if (!category['id']) { // Only insert top level category from catTable
+          tree.push(...category['children']);
+        }
+      }
+      return tree;
+
+    } catch (e) {
+      logger.error("Category:treeFormatter()", e);
       return null;
     }
   }

@@ -10,6 +10,10 @@ By Reza Mirjahanian
 
 `npm start`
 
+`http://localhost:3000/api/categories`
+
+`http://localhost:3000/api/categories?id=2`
+
 ### Testing
 `npm test`
 

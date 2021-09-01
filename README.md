@@ -13,7 +13,11 @@ By Reza Mirjahanian
 ### Testing
 `npm test`
 
+`npm run coverage`
+
 ### todos
 * Create validator
 
 * https://swagger.io
+  
+* more tests :)

@@ -74,7 +74,7 @@ class Category {
    * @return {Promise< {Object[]}|null>}
    */
   static async getCategories({
-    parentId = 1,
+    parentId = 0,
   }) {
     try {
       let pattern = parentId > 0 ? {
